@@ -2,12 +2,14 @@ import { useState } from "react";
 import "./App.css";
 import useClickOutside from "./hooks/use-click-outside";
 import useColorScheme from "./hooks/use-color-scheme";
+import useFocusWithin from "./hooks/use-focus-within";
 
 function App() {
   const [open, setOpen] = useState(false);
 
   const colorScheme = useColorScheme();
   const ref = useClickOutside(() => setOpen(false));
+  const { ref: ref2, focused } = useFocusWithin();
 
   return (
     <>
@@ -32,6 +34,13 @@ function App() {
       >
         Color Scheme = {colorScheme}
       </p>
+
+      <div className="text" style={{ border: "1px solid red" }} ref={ref2}>
+        burası gözükecek
+        <input type="text" />
+
+        {focused ? 'focus-within' : 'no focus'}
+      </div>
 
       {open && (
         <div style={{ border: "1px solid red" }} ref={ref}>
