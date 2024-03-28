@@ -1,8 +1,8 @@
 import { useState } from "react";
-import "./App.css";
 import useClickOutside from "./hooks/use-click-outside";
 import useColorScheme from "./hooks/use-color-scheme";
 import useFocusWithin from "./hooks/use-focus-within";
+import useFullScreen from "./hooks/use-full-screen";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -11,10 +11,12 @@ function App() {
   const ref = useClickOutside(() => setOpen(false));
   const { ref: ref2, focused } = useFocusWithin();
 
+  const { toggle, ref: fsRef, fullScreen } = useFullScreen();
+
   return (
     <>
-      <div id="test">
-        <h1>React Hooks!</h1>
+      <div className={fullScreen && "full-screen"} ref={fsRef}>
+        <h1>React Hooks</h1>
 
         <button
           onClick={(e) => {
@@ -24,6 +26,10 @@ function App() {
         >
           {open ? "Kapat" : "Ac"}
         </button>
+
+        <button onClick={toggle}>
+          Full Screen {fullScreen ? "Kapat" : "Ac"}
+        </button>
       </div>
 
       <p
@@ -32,20 +38,18 @@ function App() {
           color: colorScheme === "dark" ? "#fff" : "#333",
         }}
       >
-        Color Scheme = {colorScheme}
+        Color scheme = {colorScheme}
       </p>
 
-      <div className="text" style={{ border: "1px solid red" }} ref={ref2}>
-        burası gözükecek
+      <div className="test" style={{ border: "1px solid red" }} ref={ref2}>
+        burasi gozukecek
         <input type="text" />
-
-        {focused ? 'focus-within' : 'no focus'}
+        {focused ? "focus-within" : "no focus!"}
       </div>
 
       {open && (
         <div style={{ border: "1px solid red" }} ref={ref}>
-          Burası gözüküyor
-          <button>test</button>
+          burasi gozukecek
         </div>
       )}
     </>
