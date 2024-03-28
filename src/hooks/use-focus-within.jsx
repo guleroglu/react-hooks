@@ -18,6 +18,11 @@ export default function useFocusWithin() {
 
       ref.current.addEventListener("focusin", focusInHandle);
       ref.current.addEventListener("focusout", focusOutHandle);
+
+      return () => {
+        ref.current.removeEventListener("focusin", focusInHandle);
+        ref.current.removeEventListener("focusout", focusOutHandle);
+      };
     }
   }, [ref]);
 
